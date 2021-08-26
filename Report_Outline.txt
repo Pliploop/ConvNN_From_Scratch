@@ -1,0 +1,63 @@
+Abstract
+
+1. Introduction
+	Problem presentation and algorithm overview
+2. Data presentation
+	CIFAR10 dataset
+	Quick viz of some examples
+	Class distribution in training data
+3. Technical background
+	Basics of convolutional neural networks
+	essentials blocks in convNN
+	Well-known structures
+		AlexNet
+		VGG-16
+		VGG-19
+		Inception
+		GoogleNet
+		ResNet (Deep)
+		SqueezeNet
+		ENet
+		ShuffleNet
+		DenseNet
+
+4. Building our own convolutional Neural Network
+	Code Link
+	Architecture overview
+		Convolutional blocks
+		Residual Blocks
+		Fully-connected layers
+		Activation functions
+	Second ConvNN based on one of the previous architectures
+
+5. Pre-processing, training and performance analysis
+	Processing
+		Data processing
+		Data augmentation
+	Splitting
+		train-test split
+		K-fold validation
+	Training
+		OPtimization algortihm - Momentum SGD
+		Training curves
+	Performance analysis
+		Choice of performance metrics
+		Performance metrics on Our own CNN
+		Performance metrics on Our CNN based on known 				architecture
+		Feature extraction
+		Dimension reduction viz
+
+Comparison with other Architectures
+	Training other architectures
+	Confusion matrixed for all architectures
+	Comparison of metrics for our CNNs + Others
+
+Possible improvements
+	?
+
+Conclusion
+
+
+
+		
+	

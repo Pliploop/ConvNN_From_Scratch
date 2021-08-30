@@ -139,7 +139,7 @@ class JulienNet(nn.Module):
 
 
 class JNetTrainer:
-    def __init__(self, SetGenerator, n_epochs,dropout) -> None:
+    def __init__(self, SetGenerator, n_epochs,dropout,save_path,save=False) -> None:
         self.SetGenerator = SetGenerator
         self.net = JulienNet(dropout=dropout)
         self.device = torch.device(
@@ -159,6 +159,8 @@ class JNetTrainer:
         self.train_accuracy_list[:] = np.NaN
         self.val_accuracy_list[:] = np.NaN
         self.fig,self.ax=plt.subplots(1,2)
+        self.save_path=save_path
+        self.save = save
         
     def train(self):
         epochs = trange(self.n_epochs, leave=True)
@@ -225,8 +227,8 @@ class JNetTrainer:
 
 
         print('Finished Training')
-        PATH='./Jnet.pth'
-        torch.save(self.net.state_dict(), PATH)
+        if self.save:
+            torch.save(self.net.state_dict(), self.save_path)
 
     def plot_metrics(self):
         ax=self.ax
@@ -241,3 +243,15 @@ class JNetTrainer:
         ax[1].set(title="Accuracy",xlabel="n_epochs",ylabel="accuracy",ylim=[0,100])
 
         plt.show()
+
+    def load(self,path):
+        self.net = JulienNet(True)
+        self.net.load_state_dict(torch.load(path))
+
+    def predict(self,img):
+        output = self.net(img)
+        predicted_class = torch.argmax(output)
+        predicted_class_name = self.SetGenerator.classes[predicted_class]
+        return predicted_class_name
+
+    

@@ -28,7 +28,6 @@ Abstract
 		Residual Blocks
 		Fully-connected layers
 		Activation functions
-	Second ConvNN based on one of the previous architectures
 
 5. Pre-processing, training and performance analysis
 	Processing
@@ -38,6 +37,7 @@ Abstract
 		train-test split
 		K-fold validation
 	Training
+		Weight initialisation
 		OPtimization algortihm - Momentum SGD
 		Training curves
 	Performance analysis
@@ -53,7 +53,8 @@ Comparison with other Architectures
 	Comparison of metrics for our CNNs + Others
 
 Possible improvements
-	?
+	Data augmentation
+	K-fold validation
 
 Conclusion
 

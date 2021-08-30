@@ -1,0 +1,38 @@
+Input shape (3,32,32)
+
+
+Conv2D (3,64,k_w=3,stride=1,padding=1)      (exit shape : 64,32,32)
+ReLu()                                      (exit shape : 64,32,32)
+Conv2D (64,64,3,1,1)                        (exit shape : 64,32,32)
+ReLu ()                                     (exit shape : 64,32,32)
+BatchNorm()                                 (exit shape : 64,32,32)
+MaxPool2d(2,2)                              (exit shape : 64,16,16)
+
+
+Conv2D (64,128,3,1,1)                       (exit shape : 128,16,16)
+ReLu()                                      (exit shape : 128,16,16)
+Conv2D (128,128,3,1,1)                      (exit shape : 128,16,16)
+ReLu ()                                     (exit shape : 128,16,16)
+BatchNorm()                                 (exit shape : 128,16,16)
+MaxPool2d(2,2)                              (exit shape : 128,8,8)
+
+
+Conv2D (128,256,3,1,1)                      (exit shape : 256,8,8)
+ReLu()                                      (exit shape : 256,8,8)
+Conv2D (256,256,3,1,1)                      (exit shape : 256,8,8)
+ReLu ()                                     (exit shape : 256,8,8)
+Conv2D (256,256,3,1,1)                      (exit shape : 256,8,8)
+ReLu ()                                     (exit shape : 256,8,8)
+BatchNorm()                                 (exit shape : 256,8,8)
+MaxPool2d(2,2)                              (exit shape : 256,4,4)
+
+Flatten()                                   (exit shape : 1,4096)
+Linear(4096,512)                            (exit shape : 1,512)
+Relu()                                      (exit shape : 1,512)
+Dropout(0.5)                                (exit shape : 1,512)
+Linear(512,128)                             (exit shape : 1,128)       #t-SNE here
+Relu()                                      (exit shape : 1,128)
+Dropout(0.5)                                (exit shape : 1,128)
+Linear(128,10)                              (exit shape : 1,10)
+Relu()                                      (exit shape : 1,10)
+SoftMax()                                   (exit shape : 1,10)

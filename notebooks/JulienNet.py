@@ -8,6 +8,9 @@ import torch.nn.functional as F
 import torch.optim as optim
 from tqdm import trange
 from sklearn.model_selection import train_test_split
+from sklearn.manifold import TSNE
+import pandas as pd
+import seaborn as sns
 
 
 class SetGenerator():
@@ -100,7 +103,7 @@ class JulienNet(nn.Module):
         self.fc_2 = nn.Linear(128, 64)
         self.dropout_2 = nn.Dropout(0.5)
         self.fc_3 = nn.Linear(64, 10)
-        self.softmax = nn.Softmax()
+        self.softmax = nn.Softmax(dim=1)
 
         self.dropout = dropout
 
@@ -247,6 +250,10 @@ class JNetTrainer:
     def load(self,path):
         self.net = JulienNet(True)
         self.net.load_state_dict(torch.load(path))
+        self.net.to(self.device)
+
+    
+
 
     def predict(self,img):
         output = self.net(img)
@@ -254,4 +261,39 @@ class JNetTrainer:
         predicted_class_name = self.SetGenerator.classes[predicted_class]
         return predicted_class_name
 
-    
+    def get_feature_reduction(self):
+        features = torch.empty(0,64)
+        classes = np.empty((0,1))
+        activation = {}
+        def get_activation(name):
+            def hook(model, input, output):
+                activation[name] = output.detach()
+            return hook
+        self.net.fc_2.register_forward_hook(get_activation('fc2'))
+        self.net.eval()
+        for data in self.SetGenerator.test_set:
+            # print(data)
+
+            img, labels = data[0].view(-1,3,32,32).to(
+            self.device), data[1]
+
+            outputs = self.net(img)
+            features=torch.cat([features,activation['fc2'].cpu()])
+            classes=np.append(classes,self.SetGenerator.classes[labels])
+            
+
+        features_embed = TSNE(n_components=2).fit_transform(features)
+        dim_reduction_data = pd.DataFrame()
+        dim_reduction_data['d1']=features_embed[:,0]
+        dim_reduction_data['d2']=features_embed[:,1]
+        dim_reduction_data['class']=classes
+        plt.figure(figsize=(16,10))
+        sns.scatterplot(
+            x="d1", y="d2",
+            hue="class",
+            palette=sns.color_palette("hls", 10),
+            data=dim_reduction_data,
+            legend="full",
+            alpha=0.3
+        )
+        plt.show()
